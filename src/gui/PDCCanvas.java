@@ -17,12 +17,22 @@ import pdc.PDCI;
 
 public class PDCCanvas extends JPanel implements MouseListener {
 	
-	private static final Dimension CANVAS_SIZE = new Dimension(180, 180);
+	private static final Dimension CANVAS_SIZE = new Dimension(100, 100);
 	
 	private JPDCGUI gui;
 	private PDCI image;
 	private PDC currentCommand;
 	
+	public PDCCanvas(JPDCGUI gui) {
+		this.gui = gui;
+		setPreferredSize(CANVAS_SIZE);
+		addMouseListener(this);
+		
+		image = new PDCI(getSize());
+		
+		repaint();
+	}
+
 	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2d = (Graphics2D)g;
@@ -38,54 +48,53 @@ public class PDCCanvas extends JPanel implements MouseListener {
 		System.out.println("Drawing " + commandList.size() + " commands");
 		
 		for(PDC command : commandList) {
-			// Set the stroke width and fill color
-			g2d.setStroke(new BasicStroke(command.getStrokeWidth()));
-			
-			if(command.getType() == PDC.TYPE_PATH) {
-				// Get all points
-				ArrayList<Point> points = command.getPointArray();
-				
-				// Draw filled?
-				if(command.getPathOpenRadius() == PDC.PATH_CLOSED) {
-					// Make array of x and y
-					int[] xArr = new int[points.size()];
-					int[] yArr = new int[points.size()];
-				    for(int i = 0; i < points.size(); i++) {
-				        xArr[i] = points.get(i).x;
-				        yArr[i] = points.get(i).y;
-				    }
-				    g2d.setColor(command.getFillColor());
-					g2d.drawPolygon(xArr, yArr, points.size());
-				}
-				
-				// Draw lines of outline
-				g2d.setColor(command.getStrokeColor());
-				if(command.getStrokeWidth() > 0 && command.getNumberOfPoints() > 1) {
-					for(int i = 1; i < points.size(); i++) {
-						Point last = points.get(i - 1);
-						Point next = points.get(i);
-						g2d.drawLine(last.x, last.y, next.x, next.y);
-					}
-				}
-			} else {
-				// Circle
-				int radius = command.getPathOpenRadius();
-				Point center = command.getPointArray().get(0);
-
-				g2d.setColor(command.getFillColor());
-				g2d.fillOval(center.x - (radius / 2), center.y - (radius / 2), radius, radius);
-			}
+			drawCommand(g2d, command);
+		}
+		
+		// In-progress command
+		if(currentCommand != null) {
+			drawCommand(g2d, currentCommand);
 		}
 	}
 	
-	public PDCCanvas(JPDCGUI gui) {
-		this.gui = gui;
-		setPreferredSize(CANVAS_SIZE);
-		addMouseListener(this);
+	private void drawCommand(Graphics2D g2d, PDC command) {
+		// Set the stroke width and fill color
+		g2d.setStroke(new BasicStroke(command.getStrokeWidth()));
 		
-		image = new PDCI(getSize());
-		
-		repaint();
+		if(command.getType() == PDC.TYPE_PATH) {
+			// Get all points
+			ArrayList<Point> points = command.getPointArray();
+			
+			// Draw filled?
+			if(command.getPathOpenRadius() == PDC.PATH_CLOSED) {
+				// Make array of x and y
+				int[] xArr = new int[points.size()];
+				int[] yArr = new int[points.size()];
+			    for(int i = 0; i < points.size(); i++) {
+			        xArr[i] = points.get(i).x;
+			        yArr[i] = points.get(i).y;
+			    }
+			    g2d.setColor(command.getFillColor());
+				g2d.drawPolygon(xArr, yArr, points.size());
+			}
+			
+			// Draw lines of outline
+			g2d.setColor(command.getStrokeColor());
+			if(command.getStrokeWidth() > 0 && command.getNumberOfPoints() > 1) {
+				for(int i = 1; i < points.size(); i++) {
+					Point last = points.get(i - 1);
+					Point next = points.get(i);
+					g2d.drawLine(last.x, last.y, next.x, next.y);
+				}
+			}
+		} else {
+			// Circle
+			int radius = command.getPathOpenRadius();
+			Point center = command.getPointArray().get(0);
+
+			g2d.setColor(command.getFillColor());
+			g2d.fillOval(center.x - (radius), center.y - (radius), 2 * radius, 2 * radius);
+		}
 	}
 	
 	public void reset() {

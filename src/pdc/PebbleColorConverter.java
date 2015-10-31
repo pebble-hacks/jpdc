@@ -23,6 +23,7 @@ public class PebbleColorConverter {
         result |= g << 2;
         result |= b;
 
+        System.out.println("Converted Color " + input.toString() + " to Pebble Color: " + String.format("%8s", Integer.toBinaryString(b & 0xFF)).replace(' ', '0'));
         return result;
 	}
 	
@@ -35,8 +36,15 @@ public class PebbleColorConverter {
 		int green = Integer.parseInt(s.substring(4, 6), 2);
 		int blue = Integer.parseInt(s.substring(6, 8), 2);
 		
+		// Scale to 255
+		red *= 85;
+		green *= 85;
+		blue *= 85;
+		
 		// Make approximate java AWT Color
-		return new Color(red, green, blue);
+		Color result = new Color(red, green, blue);
+		System.out.println("Converted PebbleColor " + s + " to Color " + result.toString());
+		return result;
 	}
 	
 }

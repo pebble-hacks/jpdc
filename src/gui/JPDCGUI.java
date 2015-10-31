@@ -19,7 +19,7 @@ public class JPDCGUI {
 	
 	// TODO Cooler name
 	private static final String APP_NAME = "JPDC";
-	public static final Dimension WINDOW_SIZE = new Dimension(600, 400);
+	public static final Dimension WINDOW_SIZE = new Dimension(500, 300);
 	
 	private JFrame window;
 	private PDCCanvas canvas;
