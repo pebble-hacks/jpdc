@@ -19,7 +19,7 @@ public class JPDCGUI {
 	
 	// TODO Cooler name
 	private static final String APP_NAME = "JPDC";
-	public static final Dimension WINDOW_SIZE = new Dimension(500, 300);
+	public static final Dimension WINDOW_SIZE = new Dimension(600, 600);
 	
 	private JFrame window;
 	private PDCCanvas canvas;
@@ -325,31 +325,50 @@ public class JPDCGUI {
 	}
 	
 	public int getCircleRadius() {
-		// TODO format checking
-		return Integer.parseInt(circleRadiusField.getText());
+		try {
+			return Integer.parseInt(circleRadiusField.getText());
+		} catch(Exception e) {
+			System.err.println("Parse of circle radius failed!");
+			e.printStackTrace();
+			return 0;
+		}
 	}
 	
 	public Color getStrokeColor() {
-		// TODO format checking
-		String s = strokeColorField.getText();
-		int red = Integer.parseInt(s.substring(0, 2), 16);
-		int green = Integer.parseInt(s.substring(2, 4), 16);
-		int blue = Integer.parseInt(s.substring(4, 6), 16);
-		return new Color(red, green, blue);
+		try {
+			String s = strokeColorField.getText();
+			return stringToColor(s);
+		} catch(Exception e) {
+			System.err.println("Error parsing stroke color components!");
+			e.printStackTrace();
+			return Color.PINK;
+		}
 	}
 	
 	public int getStrokeWidth() {
-		// TODO format checking
-		return Integer.parseInt(strokeWidthField.getText());
+		try {
+			return Integer.parseInt(strokeWidthField.getText());
+		} catch(Exception e) {
+			System.err.println("Parse of stroke width failed!");
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	public Color stringToColor(String s) {
+		int i = Integer.parseInt(s, 16);
+		return new Color(i);
 	}
 	
 	public Color getFillColor() {
-		// TODO format checking
-		String s = fillColorField.getText();
-		int red = Integer.parseInt(s.substring(0, 2), 16);
-		int green = Integer.parseInt(s.substring(2, 4), 16);
-		int blue = Integer.parseInt(s.substring(4, 6), 16);
-		return new Color(red, green, blue);
+		try {
+			String s = fillColorField.getText();
+			return stringToColor(s);
+		} catch(Exception e) {
+			System.err.println("Error parsing fill color components!");
+			e.printStackTrace();
+			return Color.PINK;
+		}
 	}
 
 }
