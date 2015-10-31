@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
@@ -12,6 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import pdc.PDC;
+
 public class JPDCGUI {
 	
 	// TODO Cooler name
@@ -20,6 +23,14 @@ public class JPDCGUI {
 	
 	private JFrame window;
 	private PDCCanvas canvas;
+	private JButton typeButton;
+	private JCheckBox pathOpenCheckbox;
+	private JTextField circleRadiusField;
+	private JTextField strokeColorField;
+	private JTextField strokeWidthField;
+	private JTextField fillColorField;
+	
+	private int currentType = PDC.TYPE_PATH;
 	
 	public JPDCGUI() {
 		EventQueue.invokeLater(new Runnable() {
@@ -44,10 +55,10 @@ public class JPDCGUI {
 		gbc.anchor = GridBagConstraints.WEST;
 		Dimension standardSize = new Dimension(100, 30);
 		
-		canvas = new PDCCanvas();
+		canvas = new PDCCanvas(this);
 		gbc.gridx = 0;
 		gbc.gridy = 1;
-		gbc.gridwidth = 6;
+		gbc.gridwidth = 5;
 		gbc.gridheight = 1;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.anchor = GridBagConstraints.CENTER;
@@ -64,6 +75,7 @@ public class JPDCGUI {
 			public void mouseClicked(MouseEvent e) {
 				// Wipe the list of drawn commands
 				canvas.reset();
+				canvas.repaint();
 			}
 			
 		});
@@ -84,6 +96,8 @@ public class JPDCGUI {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Load a PDC file (open dialog)
+				
+				canvas.repaint();
 			}
 			
 		});
@@ -104,6 +118,7 @@ public class JPDCGUI {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Save the PDC file (open dialog)
+				canvas.save("./output.pdc");
 			}
 			
 		});
@@ -118,17 +133,23 @@ public class JPDCGUI {
 		gbl.setConstraints(saveButton, gbc);
 		window.add(saveButton, gbc);
 		
-		JButton pathButton = new JButton("Add path");
-		pathButton.addMouseListener(new SmallMouseListener() {
+		typeButton = new JButton("Type: Path");
+		typeButton.addMouseListener(new SmallMouseListener() {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO prepare canvas to receive clicks
-				
+				// Toggle type
+				if(currentType == PDC.TYPE_PATH) {
+					currentType = PDC.TYPE_CIRCLE;
+					typeButton.setText("Type: Circle");
+				} else {
+					currentType = PDC.TYPE_PATH;
+					typeButton.setText("Type: Path");
+				}
 			}
 			
 		});
-		pathButton.setPreferredSize(standardSize);
+		typeButton.setPreferredSize(standardSize);
 		gbc.gridx = 3;
 		gbc.gridy = 0;
 		gbc.gridwidth = 1;
@@ -136,42 +157,21 @@ public class JPDCGUI {
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.weightx = 0.2F;	
 		gbc.weighty = 0.16F;
-		gbl.setConstraints(pathButton, gbc);
-		window.add(pathButton, gbc);
-		
-		JButton circleButton = new JButton("Add circle");
-		circleButton.addMouseListener(new SmallMouseListener() {
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Prompt for circle radius, then prompt to click the center point
-				
-			}
-			
-		});
-		circleButton.setPreferredSize(standardSize);
-		gbc.gridx = 4;
-		gbc.gridy = 0;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.fill = GridBagConstraints.NONE;
-		gbc.weightx = 0.2F;	
-		gbc.weighty = 0.16F;
-		gbl.setConstraints(circleButton, gbc);
-		window.add(circleButton, gbc);
+		gbl.setConstraints(typeButton, gbc);
+		window.add(typeButton, gbc);
 		
 		JButton undoButton = new JButton("Undo");
 		undoButton.addMouseListener(new SmallMouseListener() {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO Remove the last command
-				
+				canvas.removeLastCommand();
+				canvas.repaint();
 			}
 			
 		});
 		undoButton.setPreferredSize(standardSize);
-		gbc.gridx = 5;
+		gbc.gridx = 4;
 		gbc.gridy = 0;
 		gbc.gridwidth = 0;
 		gbc.gridheight = 1;
@@ -241,7 +241,7 @@ public class JPDCGUI {
 		gbl.setConstraints(fillColorLabel, gbc);
 		window.add(fillColorLabel, gbc);
 		
-		JCheckBox pathOpenCheckbox = new JCheckBox();
+		pathOpenCheckbox = new JCheckBox();
 		pathOpenCheckbox.setPreferredSize(standardSize);
 		gbc.gridx = 0;
 		gbc.gridy = 3;
@@ -253,7 +253,7 @@ public class JPDCGUI {
 		gbl.setConstraints(pathOpenCheckbox, gbc);
 		window.add(pathOpenCheckbox, gbc);
 		
-		JTextField circleRadiusField = new JTextField();
+		circleRadiusField = new JTextField();
 		circleRadiusField.setPreferredSize(standardSize);
 		gbc.gridx = 1;
 		gbc.gridy = 3;
@@ -265,7 +265,7 @@ public class JPDCGUI {
 		gbl.setConstraints(circleRadiusField, gbc);
 		window.add(circleRadiusField, gbc);
 		
-		JTextField strokeColorField = new JTextField();
+		strokeColorField = new JTextField();
 		strokeColorField.setPreferredSize(standardSize);
 		gbc.gridx = 2;
 		gbc.gridy = 3;
@@ -277,7 +277,7 @@ public class JPDCGUI {
 		gbl.setConstraints(strokeColorField, gbc);
 		window.add(strokeColorField, gbc);
 		
-		JTextField strokeWidthField = new JTextField();
+		strokeWidthField = new JTextField();
 		strokeWidthField.setPreferredSize(standardSize);
 		gbc.gridx = 3;
 		gbc.gridy = 3;
@@ -289,7 +289,7 @@ public class JPDCGUI {
 		gbl.setConstraints(strokeWidthField, gbc);
 		window.add(strokeWidthField, gbc);
 		
-		JTextField fillColorField = new JTextField();
+		fillColorField = new JTextField();
 		fillColorField.setPreferredSize(standardSize);
 		gbc.gridx = 4;
 		gbc.gridy = 3;
@@ -301,8 +301,55 @@ public class JPDCGUI {
 		gbl.setConstraints(fillColorField, gbc);
 		window.add(fillColorField, gbc);
 		
+		// Set default values
+		pathOpenCheckbox.setSelected(true);
+		circleRadiusField.setText("5");
+		strokeColorField.setText("000000");
+		strokeWidthField.setText("3");
+		fillColorField.setText("FFFFFF");
+		
 		window.pack();
 		window.setVisible(true);
+	}
+	
+	public int getType() {
+		return currentType;
+	}
+
+	public int getOpenPathRadius() {
+		if(currentType == PDC.TYPE_PATH) {
+			return pathOpenCheckbox.isSelected() ? PDC.PATH_OPEN : PDC.PATH_CLOSED;
+		} else {
+			return getCircleRadius();
+		}
+	}
+	
+	public int getCircleRadius() {
+		// TODO format checking
+		return Integer.parseInt(circleRadiusField.getText());
+	}
+	
+	public Color getStrokeColor() {
+		// TODO format checking
+		String s = strokeColorField.getText();
+		int red = Integer.parseInt(s.substring(0, 2), 16);
+		int green = Integer.parseInt(s.substring(2, 4), 16);
+		int blue = Integer.parseInt(s.substring(4, 6), 16);
+		return new Color(red, green, blue);
+	}
+	
+	public int getStrokeWidth() {
+		// TODO format checking
+		return Integer.parseInt(strokeWidthField.getText());
+	}
+	
+	public Color getFillColor() {
+		// TODO format checking
+		String s = fillColorField.getText();
+		int red = Integer.parseInt(s.substring(0, 2), 16);
+		int green = Integer.parseInt(s.substring(2, 4), 16);
+		int blue = Integer.parseInt(s.substring(4, 6), 16);
+		return new Color(red, green, blue);
 	}
 
 }

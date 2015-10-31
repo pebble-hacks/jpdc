@@ -19,7 +19,7 @@ public class PDC {
 		NOT_HIDDEN = (byte)0;
 	
 	// Spec values
-	private byte type, flags, strokeColor, strokeWidth, fillColor, pathOpen;
+	private byte type, flags, strokeColor, strokeWidth, fillColor, pathOpenRadius;
 	private ArrayList<Point> pointArray = new ArrayList<Point>();
 	
 	/**
@@ -37,7 +37,7 @@ public class PDC {
 		this.strokeWidth = (byte)strokeWidth;
 		this.strokeColor = PebbleColorConverter.fromColor(strokeColor);
 		this.fillColor = PebbleColorConverter.fromColor(fillColor);
-		pathOpen = (byte)pathOpenRadius;
+		this.pathOpenRadius = (byte)pathOpenRadius;
 	}
 	
 	public PDC addPoint(Point point) {
@@ -51,7 +51,7 @@ public class PDC {
 		buffer.put(strokeColor);
 		buffer.put(strokeWidth);
 		buffer.put(fillColor);
-		buffer.putShort(pathOpen);
+		buffer.putShort(pathOpenRadius);
 		buffer.putShort((short)pointArray.size());
 		for(Point point : pointArray) {
 			buffer.putShort((short)point.x);
@@ -69,6 +69,34 @@ public class PDC {
 				 + 2	// Number of points
 				 + 4 * pointArray.size();
 		return size;
+	}
+	
+	public int getNumberOfPoints() {
+		return pointArray.size();
+	}
+
+	public byte getType() {
+		return type;
+	}
+
+	public Color getStrokeColor() {
+		return PebbleColorConverter.fromPebbleColor(strokeColor);
+	}
+
+	public int getStrokeWidth() {
+		return strokeWidth;
+	}
+
+	public Color getFillColor() {
+		return PebbleColorConverter.fromPebbleColor(fillColor);
+	}
+
+	public byte getPathOpenRadius() {
+		return pathOpenRadius;
+	}
+
+	public ArrayList<Point> getPointArray() {
+		return pointArray;
 	}
 	
 }

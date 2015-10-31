@@ -14,6 +14,11 @@ public class JPDCMain {
 	// TODO JSON interface
 
 	public static void main(String[] args) {
+		// Usage
+		System.out.println("Click canvas to add a point to a Path, or set radius of a circle.");
+		System.out.println("Exiting the canvas will END the current command.");
+		System.out.println("Use the Undo button to remove the most recent command");
+		
 		new JPDCGUI();
 	}
 	

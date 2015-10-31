@@ -33,7 +33,11 @@ public class PDCI {
 	}
 	
 	public void removeLastCommand() {
-		commandList.remove(commandList.size() - 1);
+		if(commandList.size() > 0) {
+			commandList.remove(commandList.size() - 1);
+		} else {
+			System.err.println("No commands to remove.");
+		}
 	}
 	
 	private int getSize() {
@@ -105,6 +109,10 @@ public class PDCI {
 		File f = new File(path);
 		
 		return true;
+	}
+
+	public ArrayList<PDC> getCommandList() {
+		return commandList;
 	}
 
 }
