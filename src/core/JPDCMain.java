@@ -14,11 +14,10 @@ public class JPDCMain {
 	// TODO JSON interface
 
 	public static void main(String[] args) {
-		test();
 		new JPDCGUI();
 	}
 	
-	public static void test() {
+	private static void test() {
 		Dimension viewBox = new Dimension(30, 30);
 
 		// Create the PebbleDrawCommandImage

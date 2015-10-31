@@ -12,7 +12,7 @@ public class PDCCanvas extends JPanel {
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		g.setColor(Color.RED);
+		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, CANVAS_SIZE.width, CANVAS_SIZE.height);
 	}
 	

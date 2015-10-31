@@ -20,6 +20,10 @@ public class PDCI {
 	private Dimension viewBox;
 	private ArrayList<PDC> commandList = new ArrayList<PDC>();
 	
+	/**
+	 * Create a PebbleDrawCommandImage
+	 * @param viewBox The size of the viewbox (entire image)
+	 */
 	public PDCI(Dimension viewBox) {
 		this.viewBox = new Dimension(viewBox);
 	}
