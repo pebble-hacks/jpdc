@@ -13,8 +13,8 @@ public class PDC {
 		TYPE_CIRCLE = 2;
 	
 	public static final byte
-		PATH_OPEN = (byte)0,
-		PATH_CLOSED = (byte)1,
+		PATH_OPEN = (byte)1,
+		PATH_CLOSED = (byte)0,
 		HIDDEN = (byte)1,
 		NOT_HIDDEN = (byte)0;
 	

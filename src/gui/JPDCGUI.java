@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -118,7 +119,11 @@ public class JPDCGUI {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Save the PDC file (open dialog)
-				canvas.save("./output.pdc");
+				JFileChooser chooser = new JFileChooser();
+				int val = chooser.showSaveDialog(window);
+				if(val == JFileChooser.APPROVE_OPTION) {
+					canvas.save(chooser.getSelectedFile().getAbsolutePath());
+				}
 			}
 			
 		});
