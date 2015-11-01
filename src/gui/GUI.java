@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 
 import pdc.PDC;
 
-public class JPDCGUI {
+public class GUI {
 	
 	// TODO Cooler name
 	private static final String APP_NAME = "JPDC";
@@ -33,7 +33,7 @@ public class JPDCGUI {
 	
 	private int currentType = PDC.TYPE_PATH;
 	
-	public JPDCGUI() {
+	public GUI() {
 		EventQueue.invokeLater(new Runnable() {
 			
 			@Override
@@ -118,7 +118,6 @@ public class JPDCGUI {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO Save the PDC file (open dialog)
 				JFileChooser chooser = new JFileChooser();
 				int val = chooser.showSaveDialog(window);
 				if(val == JFileChooser.APPROVE_OPTION) {

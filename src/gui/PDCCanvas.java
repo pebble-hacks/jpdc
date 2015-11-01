@@ -28,13 +28,13 @@ public class PDCCanvas extends JPanel implements MouseListener, MouseMotionListe
 		CANVAS_SIZE = new Dimension(400, 400),
 		VIEW_BOX = new Dimension(CANVAS_SIZE.width / GRID_SIZE, CANVAS_SIZE.height / GRID_SIZE);
 	
-	private JPDCGUI gui;
+	private GUI gui;
 	private PDCI image;
 	private PDC currentCommand;
 	private Point crossHair = new Point();
 	private Font font;
 	
-	public PDCCanvas(JPDCGUI gui) {
+	public PDCCanvas(GUI gui) {
 		this.gui = gui;
 		
 		setPreferredSize(CANVAS_SIZE);
