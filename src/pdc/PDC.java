@@ -29,14 +29,14 @@ public class PDC {
 	 * @param strokeColor java.awt.Color of the stroke. Will be downshifted to a Pebble color (8bit argb).
 	 * @param strokeWidth Stroke width.
 	 * @param fillColor java.awt.Color of the fill if a closed path or circle.
-	 * @param pathOpenRadius For path type, one of PATH_OPEN or PATH_CLOSED. For cicle type, the radius of the circle.
+	 * @param pathOpenRadius For path type, one of PATH_OPEN or PATH_CLOSED. For circle type, the radius of the circle.
 	 */
 	public PDC(int type, int hidden, Color strokeColor, int strokeWidth, Color fillColor, int pathOpenRadius) {
 		this.type = (byte)type;
 		flags = (byte)hidden;
 		this.strokeWidth = (byte)strokeWidth;
-		this.strokeColor = PebbleColorConverter.fromColor(strokeColor);
-		this.fillColor = PebbleColorConverter.fromColor(fillColor);
+		this.strokeColor = PebbleColor.fromColor(strokeColor);
+		this.fillColor = PebbleColor.fromColor(fillColor);
 		this.pathOpenRadius = (byte)pathOpenRadius;
 	}
 	
@@ -80,7 +80,7 @@ public class PDC {
 	}
 
 	public Color getStrokeColor() {
-		return PebbleColorConverter.fromPebbleColor(strokeColor);
+		return PebbleColor.fromPebbleColor(strokeColor);
 	}
 
 	public int getStrokeWidth() {
@@ -88,7 +88,7 @@ public class PDC {
 	}
 
 	public Color getFillColor() {
-		return PebbleColorConverter.fromPebbleColor(fillColor);
+		return PebbleColor.fromPebbleColor(fillColor);
 	}
 
 	public byte getPathOpenRadius() {

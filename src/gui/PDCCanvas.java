@@ -143,7 +143,7 @@ public class PDCCanvas extends JPanel implements MouseListener, MouseMotionListe
 			// Connect last to crosshair
 			if(currentCommand != null) {
 				ArrayList<Point> currentPoints = currentCommand.getPointArray();
-				if(currentPoints.size() > 1) {
+				if(currentPoints.size() > 0) {
 					Point last = getNearestGridDisplayPoint(currentPoints.get(currentPoints.size() - 1));
 					g2d.drawLine(last.x, last.y, crossHair.x, crossHair.y);
 				}
@@ -232,6 +232,7 @@ public class PDCCanvas extends JPanel implements MouseListener, MouseMotionListe
 			// Stop the path, add the command
 			image.addCommand(currentCommand);
 			currentCommand = null;
+			repaint();
 		}
 	}
 	

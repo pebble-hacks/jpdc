@@ -20,7 +20,7 @@ public class GUI {
 	
 	// TODO Cooler name
 	private static final String APP_NAME = "JPDC";
-	public static final Dimension WINDOW_SIZE = new Dimension(600, 550);
+	public static final Dimension WINDOW_SIZE = new Dimension(600, 520);
 	
 	private JFrame window;
 	private PDCCanvas canvas;
@@ -32,6 +32,7 @@ public class GUI {
 	private JTextField fillColorField;
 	
 	private int currentType = PDC.TYPE_PATH;
+	private String lastSavePath = null;
 	
 	public GUI() {
 		EventQueue.invokeLater(new Runnable() {
@@ -54,7 +55,7 @@ public class GUI {
 		window.setLayout(gbl);
 		
 		gbc.anchor = GridBagConstraints.WEST;
-		Dimension standardSize = new Dimension(100, 30);
+		Dimension standardSize = new Dimension(100, 25);
 		
 		canvas = new PDCCanvas(this);
 		gbc.gridx = 0;
@@ -118,10 +119,11 @@ public class GUI {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JFileChooser chooser = new JFileChooser();
+				JFileChooser chooser = new JFileChooser(lastSavePath);
 				int val = chooser.showSaveDialog(window);
 				if(val == JFileChooser.APPROVE_OPTION) {
 					canvas.save(chooser.getSelectedFile().getAbsolutePath());
+					lastSavePath = chooser.getCurrentDirectory().getAbsolutePath();
 				}
 			}
 			

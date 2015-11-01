@@ -3,7 +3,7 @@ package pdc;
 import java.awt.Color;
 
 
-public class PebbleColorConverter {
+public class PebbleColor {
 	
 	public static byte fromColor(Color input) {
 		// Get channels
