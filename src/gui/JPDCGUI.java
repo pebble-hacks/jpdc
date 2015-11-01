@@ -20,7 +20,7 @@ public class JPDCGUI {
 	
 	// TODO Cooler name
 	private static final String APP_NAME = "JPDC";
-	public static final Dimension WINDOW_SIZE = new Dimension(600, 600);
+	public static final Dimension WINDOW_SIZE = new Dimension(600, 550);
 	
 	private JFrame window;
 	private PDCCanvas canvas;
@@ -310,7 +310,7 @@ public class JPDCGUI {
 		pathOpenCheckbox.setSelected(true);
 		circleRadiusField.setText("5");
 		strokeColorField.setText("000000");
-		strokeWidthField.setText("3");
+		strokeWidthField.setText("1");
 		fillColorField.setText("FFFFFF");
 		
 		window.pack();

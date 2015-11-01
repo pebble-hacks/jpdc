@@ -3,6 +3,7 @@ package gui;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -31,12 +32,16 @@ public class PDCCanvas extends JPanel implements MouseListener, MouseMotionListe
 	private PDCI image;
 	private PDC currentCommand;
 	private Point crossHair = new Point();
+	private Font font;
 	
 	public PDCCanvas(JPDCGUI gui) {
 		this.gui = gui;
+		
 		setPreferredSize(CANVAS_SIZE);
 		addMouseListener(this);
 		addMouseMotionListener(this);
+		
+		font = new Font("console", Font.ITALIC, 14);
 		
 		image = new PDCI(VIEW_BOX);
 		
@@ -58,10 +63,6 @@ public class PDCCanvas extends JPanel implements MouseListener, MouseMotionListe
 	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2d = (Graphics2D)g;
-		
-		// Background
-//		g2d.setColor(Color.WHITE);
-//		g2d.fillRect(0, 0, CANVAS_SIZE.width, CANVAS_SIZE.height);
 		
 		// Grid
 		g2d.setColor(Color.LIGHT_GRAY);
@@ -89,6 +90,10 @@ public class PDCCanvas extends JPanel implements MouseListener, MouseMotionListe
 		g2d.setStroke(new BasicStroke(CROSSHAIR_WIDTH));
 		g2d.drawLine(crossHair.x - CROSSHAIR_RADIUS, crossHair.y, crossHair.x + CROSSHAIR_RADIUS, crossHair.y);
 		g2d.drawLine(crossHair.x, crossHair.y - CROSSHAIR_RADIUS, crossHair.x, crossHair.y + CROSSHAIR_RADIUS);
+		
+		// Current position
+		g2d.setFont(font);
+		g2d.drawString("(" + crossHair.x + "," + crossHair.y + ")", crossHair.x, crossHair.y);
 	}
 	
 	private void drawCommandPreview(Graphics2D g2d, PDC command) {
@@ -127,11 +132,20 @@ public class PDCCanvas extends JPanel implements MouseListener, MouseMotionListe
 					g2d.fillOval(next.x, next.y, strokeWidth, strokeWidth);
 				} else {
 					// Draw them all!
-					for(int i = 0; i < points.size(); i++) {
+					for(int i = 1; i < points.size(); i++) {
 						Point last = getNearestGridDisplayPoint(points.get(i - 1));
 						Point next = getNearestGridDisplayPoint(points.get(i));
 						g2d.drawLine(last.x, last.y, next.x, next.y);
 					}
+				}
+			}
+			
+			// Connect last to crosshair
+			if(currentCommand != null) {
+				ArrayList<Point> currentPoints = currentCommand.getPointArray();
+				if(currentPoints.size() > 1) {
+					Point last = getNearestGridDisplayPoint(currentPoints.get(currentPoints.size() - 1));
+					g2d.drawLine(last.x, last.y, crossHair.x, crossHair.y);
 				}
 			}
 		} else {
