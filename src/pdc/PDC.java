@@ -40,12 +40,21 @@ public class PDC {
 		this.pathOpenRadius = (byte)pathOpenRadius;
 	}
 	
+	/**
+	 * Add a point to this command's point list
+	 * @param point The point to add.
+	 * @return this, for chaining of addPoint() calls.
+	 */
 	public PDC addPoint(Point point) {
 		pointArray.add(point);
 		return this;
 	}
 	
-	public void serialize(ByteBuffer buffer) throws Exception {
+	/**
+	 * Serialize this PDC into bytes.
+	 * @param buffer The ByteBuffer provided by the PDCI when saving to disk.
+	 */
+	public void serialize(ByteBuffer buffer) {
 		buffer.put(type);
 		buffer.put(flags);
 		buffer.put(strokeColor);
@@ -59,6 +68,10 @@ public class PDC {
 		}
 	}
 	
+	/**
+	 * Calculate the size of this command.
+	 * @return The size of this command in bytes.
+	 */
 	public int getSize() {
 		int size = 1	// Type
 				 + 1	// Flags
@@ -71,30 +84,59 @@ public class PDC {
 		return size;
 	}
 	
+	/**
+	 * Get the number of points in this command/
+	 * @return The size of the point array.
+	 */
 	public int getNumberOfPoints() {
 		return pointArray.size();
 	}
 
+	/**
+	 * Get the type of this command. One of TYPE_PATH or TYPE_CIRCLE.
+	 * @return The type of this command as a byte.
+	 */
 	public byte getType() {
 		return type;
 	}
 
+	/**
+	 * Get the java.awt.Color of this command's stroke color for preview purposes.
+	 * @return java.awt.Color of this command's stroke color.
+	 */
 	public Color getStrokeColor() {
 		return PebbleColor.fromPebbleColor(strokeColor);
 	}
 
+	/**
+	 * Get the stroke width of this command for preview purposes.
+	 * @return The stroke width.
+	 */
 	public int getStrokeWidth() {
 		return strokeWidth;
 	}
 
+	/**
+	 * Get the java.awt.Color of this command's fill color for preview purposes.
+	 * @return java.awt.Color of this command's fill color.
+	 */
 	public Color getFillColor() {
 		return PebbleColor.fromPebbleColor(fillColor);
 	}
 
+	/**
+	 * Get the value of the 'pathOpenRadius' field. For path type, a byte of either PATH_OPEN or PATH_CLOSED, padded by an extra byte.
+	 * For circle type, the radius of the circle as a two-byte short.
+	 * @return The pathOpenRadius value, as descirbed above.
+	 */
 	public byte getPathOpenRadius() {
 		return pathOpenRadius;
 	}
 
+	/**
+	 * Get the list of points.
+	 * @return The ArrayList containing all the points in this command.
+	 */
 	public ArrayList<Point> getPointArray() {
 		return pointArray;
 	}

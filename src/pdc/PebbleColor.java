@@ -5,6 +5,11 @@ import java.awt.Color;
 
 public class PebbleColor {
 	
+	/**
+	 * Convert a java.awt.Color to a Pebble Color byte representation (2-bit per argb)
+	 * @param input The input Java Color
+	 * @return A byte representing the color.
+	 */
 	public static byte fromColor(Color input) {
 		// Get channels
         int r = input.getRed();
@@ -26,6 +31,11 @@ public class PebbleColor {
         return result;
 	}
 	
+	/**
+	 * Construct a java.awt.Color object from a Pebble color byte.
+	 * @param b The input Pebble Color byte representation (2-bit per argb)
+	 * @return The Color constructed.
+	 */
 	public static Color fromPebbleColor(byte b) {
 		// Byte to String of bits
 		String s = String.format("%8s", Integer.toBinaryString(b & 0xFF)).replace(' ', '0');

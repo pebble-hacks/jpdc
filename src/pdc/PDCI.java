@@ -1,10 +1,8 @@
 package pdc;
 
 import java.awt.Dimension;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -30,10 +28,17 @@ public class PDCI {
 		this.viewBox = new Dimension(viewBox);
 	}
 	
+	/**
+	 * Add a command to the list of commands in this PebbleDrawCommandImage
+	 * @param command The PDC to add.
+	 */
 	public void addCommand(PDC command) {
 		commandList.add(command);
 	}
 	
+	/**
+	 * Remove the most recently added command.
+	 */
 	public void removeLastCommand() {
 		if(commandList.size() > 0) {
 			commandList.remove(commandList.size() - 1);
@@ -42,6 +47,10 @@ public class PDCI {
 		}
 	}
 	
+	/**
+	 * Get the size of this PDCI in bytes.
+	 * @return The size of this PDCI in bytes.
+	 */
 	private int getSize() {
 		int size = 0;
 		
@@ -58,6 +67,12 @@ public class PDCI {
 		return size;
 	}
 	
+	/**
+	 * Serialize and write the entire PDCI to the specified path.
+	 * @param path The path to write the PDCI to. Must end in '.pdc' to be compatible with Pebble.
+	 * @return true if successful, false otherwise.
+	 * @throws Exception Any exceptions that occur.
+	 */
 	public boolean writeToFile(String path) throws Exception {
 		ByteBuffer buffer = ByteBuffer.allocate(MAX_BYTES);
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
@@ -106,14 +121,22 @@ public class PDCI {
 		return true;
 	}
 	
+	/**
+	 * Read a PDC file and construct this PDCI model object from its data.
+	 * TODO Read as little endian - difficult in Java
+	 * @param path The path to load the PDCI from.
+	 * @return true if successful, false otherwise.
+	 * @throws Exception Any exceptions thrown.
+	 */
 	public boolean readFromFile(String path) throws Exception {
 		File f = new File(path);
-		
-		// TODO Read as little endian - difficult in Java
-		
-		return true;
+		return false;
 	}
 
+	/**
+	 * Get the list of commands in this DrawCommandImage.
+	 * @return ArrayList of the PDC list.
+	 */
 	public ArrayList<PDC> getCommandList() {
 		return commandList;
 	}
