@@ -187,6 +187,17 @@ public class PDCCanvas extends JPanel implements MouseListener, MouseMotionListe
 		}
 	}
 	
+	public void load(String path) {
+		try {
+			System.out.println("Loading");
+			image.readFromFile(path);
+			System.out.println("Read from " + path);
+		} catch (Exception e) {
+			System.err.println("Error reading file to " + path + ": " + e.getLocalizedMessage());
+			e.printStackTrace();
+		}
+	}
+	
 	public void removeLastCommand() {
 		System.out.println("Removing last command...");
 		image.removeLastCommand();
