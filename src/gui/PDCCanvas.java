@@ -60,19 +60,15 @@ public class PDCCanvas extends JPanel implements MouseListener, MouseMotionListe
 		Graphics2D g2d = (Graphics2D)g;
 		
 		// Background
-		g2d.setColor(Color.WHITE);
-		g2d.fillRect(0, 0, CANVAS_SIZE.width, CANVAS_SIZE.height);
+//		g2d.setColor(Color.WHITE);
+//		g2d.fillRect(0, 0, CANVAS_SIZE.width, CANVAS_SIZE.height);
 		
 		// Grid
 		g2d.setColor(Color.LIGHT_GRAY);
 		Dimension size = getSize();
-		
-		// Horizontal
 		for(int y = 0; y < size.height; y += GRID_SIZE) {
 			g2d.drawLine(0, y, size.width, y);
 		}
-		
-		// Vertical
 		for(int x = 0; x < size.width; x += GRID_SIZE) {
 			g2d.drawLine(x, 0, x, size.height);
 		}
@@ -80,12 +76,12 @@ public class PDCCanvas extends JPanel implements MouseListener, MouseMotionListe
 		// Draw commands so far
 		ArrayList<PDC> commandList = image.getCommandList();
 		for(PDC command : commandList) {
-			drawCommand(g2d, command);
+			drawCommandPreview(g2d, command);
 		}
 		
 		// In-progress command
 		if(currentCommand != null) {
-			drawCommand(g2d, currentCommand);
+			drawCommandPreview(g2d, currentCommand);
 		}
 		
 		// Crosshair
@@ -95,7 +91,7 @@ public class PDCCanvas extends JPanel implements MouseListener, MouseMotionListe
 		g2d.drawLine(crossHair.x, crossHair.y - CROSSHAIR_RADIUS, crossHair.x, crossHair.y + CROSSHAIR_RADIUS);
 	}
 	
-	private void drawCommand(Graphics2D g2d, PDC command) {
+	private void drawCommandPreview(Graphics2D g2d, PDC command) {
 		// Set the stroke width and fill color
 		int strokeWidth = command.getStrokeWidth();
 		strokeWidth *= GRID_SIZE;
