@@ -49,7 +49,7 @@ $ java -jar release/jpdc-0.1.1.jar
 
 * Create a `PDCI` object, supplying the view box of the image:
 
-```
+```java
 Dimension viewBox = new Dimension(50, 50);
 
 PDCI drawCommandImage = new PDCI(viewBox);
@@ -58,7 +58,7 @@ PDCI drawCommandImage = new PDCI(viewBox);
 * Create a `PDC` object describing the base properties of the command, according
   to the spec:
 
-```
+```java
 Color strokeColor = Color.BLACK;
 Color fillColor = Color.WHITE;
 int strokeWidth = 2;
@@ -70,7 +70,7 @@ PDC stroke1 = new PDC(PDC.TYPE_PATH, PDC.NOT_HIDDEN, strokeColor, strokeWidth, f
 * Add points describing the path of the command, or a single center point in the
   case of a `TYPE_CIRCLE` command:
 
-```
+```java
 // Describes a square path
 stroke1.addPoint(new Point(0, 0));
 stroke1.addPoint(new Point(20, 0));
@@ -80,7 +80,7 @@ stroke1.addPoint(new Point(0, 20));
 
 This can also be done in a builder-type fashion:
 
-```
+```java
 // Describes a square path
 stroke1.addPoint(new Point(0, 0))
   .addPoint(new Point(20, 0))
@@ -90,13 +90,13 @@ stroke1.addPoint(new Point(0, 0))
 
 * Add the command to the image:
 
-```
+```java
 drawCommandImage.addCommand(stroke1);
 ```
 
 * When you are done adding commands, save the image to disk:
 
-```
+```java
 String filePath = "./output.pdc";
 
 drawCommandImage.writeToFile(filePath);
