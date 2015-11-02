@@ -34,6 +34,8 @@ $ java -jar release/jpdc-0.1.jar
   implemented, neither are PebbleDrawCommandSequences, or objects representing
   the PebbleDrawCommandList or PebbleDrawCommandFrame.
 
+* The 'Open' function is not yet implemented.
+
 * Bug-free. While most drawings result in usable `.pdc` files, on some occasions
   nothing will appear. The cause is not known.
 
