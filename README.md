@@ -17,11 +17,11 @@ implementation with simple GUI application for drawing icons.
   [`svg2pdc`](https://github.com/pebble-examples/cards-example/blob/master/tools/svg2pdc.py)
   tool.
 
-* A GUI application (run `release/jpdc-0.1.jar`) to draw simple icons for use in
-  Pebble apps. See the *How to use the GUI* section.
+* A GUI application (run `release/jpdc-0.1.1.jar`) to draw simple icons for use
+  in Pebble apps. See the *How to use the GUI* section.
 
 ```
-$ java -jar release/jpdc-0.1.jar
+$ java -jar release/jpdc-0.1.1.jar
 ```
 
 * Includes `src/pdc/PebbleColor.java` for conversion between `java.awt.Color`
