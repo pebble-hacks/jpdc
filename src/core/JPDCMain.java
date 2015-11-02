@@ -6,8 +6,9 @@ public class JPDCMain {
 	
 	/**
 	 * 0.1 - Initial release.
+	 * 0.1.1 - Disable the unused Open button.
 	 */
-	private static final String VERSION = "0.1";
+	private static final String VERSION = "0.1.1";
 	
 	public static void main(String[] args) throws Exception {
 		System.out.println("JPDC version " + VERSION);
