@@ -129,7 +129,6 @@ public class PDCI {
 	 * @throws Exception Any exceptions thrown.
 	 */
 	public boolean readFromFile(String path) throws Exception {
-		File f = new File(path);
 		return false;
 	}
 
