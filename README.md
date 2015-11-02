@@ -92,7 +92,7 @@ stroke1.addPoint(new Point(0, 0))
 drawCommandImage.addCommand(stroke1);
 ```
 
-* When you are done adding commands, save the image to disl:
+* When you are done adding commands, save the image to disk:
 
 ```
 String filePath = "./output.pdc";
