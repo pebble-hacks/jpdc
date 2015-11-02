@@ -114,6 +114,9 @@ public class GUI {
 		gbl.setConstraints(openButton, gbc);
 		window.add(openButton, gbc);
 		
+		// TODO Open not yet implemented
+		openButton.setEnabled(false);
+		
 		JButton saveButton = new JButton("Save");
 		saveButton.addMouseListener(new SmallMouseListener() {
 			
