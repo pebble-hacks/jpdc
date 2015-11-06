@@ -1,6 +1,7 @@
 package pdc;
 
 import java.awt.Dimension;
+import java.awt.Point;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -145,33 +146,88 @@ public class PDCI {
 		}
 		
 		// Track position
-		int pos = 0;
+		int ptr = 0;
 		
 		// Magic word
 		String magicWord = new String();
-		for(pos = 0; pos < 4; pos++) {
-			magicWord += (char)bytes.get(pos).intValue();
+		for(ptr = 0; ptr < 4; ptr++) {
+			magicWord += (char)bytes.get(ptr).intValue();
 		}
 		if(!magicWord.equals(MAGIC_WORD)) {
 			inputStream.close();
 			throw new Exception("This is not a PDCI file!");
 		}
 	
-		// Size
-		byte[] size = new byte[4];
-		for(; pos < 8; pos++) {
-			size[pos - 4] = bytes.get(pos);
+		// Size - 4 bytes
+		byte[] sizeBytes = new byte[4];
+		for(; ptr < 8; ptr++) {
+			sizeBytes[ptr - 4] = bytes.get(ptr);
 		}
-		int fileSize = size[0];
+		int fileSize = sizeBytes[0];
 		
 		// Version
-		byte version = bytes.get(8);
-		if(version != VERSION) {
+		byte versionByte = bytes.get(ptr);
+		if(versionByte != VERSION) {
 			inputStream.close();
 			throw new Exception("PDC file is not compatible with the current version: " + VERSION);
 		}
 		
+		// Reserved - byte 9
+		ptr = 10;
 		
+		// Viewbox 2 x 2 butes
+		byte[] viewXBytes = new byte[2];
+		viewXBytes[0] = bytes.get(ptr++);
+		viewXBytes[1] = bytes.get(ptr++);
+		byte[] viewYBytes = new byte[2];
+		viewYBytes[0] = bytes.get(ptr++);
+		viewYBytes[1] = bytes.get(ptr++);
+		viewBox = new Dimension(viewXBytes[0], viewYBytes[0]);
+		
+		// Number of commands - 2 bytes
+		byte[] numCommandsBytes = new byte[2];
+		numCommandsBytes[0] = bytes.get(ptr++);
+		numCommandsBytes[1] = bytes.get(ptr++);
+		int numCommands = numCommandsBytes[0];
+		
+		commandList = new ArrayList<PDC>(numCommands);
+		
+		// The commands
+		for(int i = 0; i < numCommands; i++) {
+			// Command metadata
+			int type = bytes.get(ptr++);
+			int hidden = bytes.get(ptr++);
+			byte strokeColor = bytes.get(ptr++);
+			int strokeWidth = bytes.get(ptr++);
+			byte fillColor = bytes.get(ptr++);
+			byte[] pathOpenRadiusBytes = new byte[2];
+			pathOpenRadiusBytes[0] = bytes.get(ptr++);
+			pathOpenRadiusBytes[1] = bytes.get(ptr++);
+			int pathOpenRadius = pathOpenRadiusBytes[0];
+			byte[] numPointsBytes = new byte[2];
+			numPointsBytes[0] = bytes.get(ptr++);
+			numPointsBytes[1] = bytes.get(ptr++);
+			short numPoints = numPointsBytes[0];
+			
+			// Load points
+			ArrayList<Point> points = new ArrayList<Point>();
+			for(int j = 0; j < numPoints; j++) {
+				byte[] xBytes = new byte[2];
+				xBytes[0] = bytes.get(ptr++);
+				xBytes[1] = bytes.get(ptr++);
+				byte[] yBytes = new byte[2];
+				yBytes[0] = bytes.get(ptr++);
+				yBytes[1] = bytes.get(ptr++);
+				points.add(new Point(xBytes[0], yBytes[0]));
+			}
+			
+			// Add commands to image
+			PDC pdc = new PDC(type, hidden, PebbleColor.fromPebbleColor(strokeColor), strokeWidth, PebbleColor.fromPebbleColor(fillColor), pathOpenRadius);
+			for(int j = 0; j < points.size(); j++) {
+				pdc.addPoint(points.get(j));
+			}
+			commandList.add(pdc);
+		}
 
 		inputStream.close();
 		return true;
