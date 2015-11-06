@@ -22,7 +22,7 @@ public class PDCCanvas extends JPanel implements MouseListener, MouseMotionListe
 	
 	private static final int 
 		GRID_SIZE = 8,
-		CROSSHAIR_WIDTH = GRID_SIZE / 2,
+		CROSSHAIR_WIDTH = 2,
 		CROSSHAIR_RADIUS = GRID_SIZE;
 	private static final Dimension 
 		CANVAS_SIZE = new Dimension(400, 400),
@@ -93,7 +93,9 @@ public class PDCCanvas extends JPanel implements MouseListener, MouseMotionListe
 		
 		// Current position
 		g2d.setFont(font);
-		g2d.drawString("(" + crossHair.x + "," + crossHair.y + ")", crossHair.x, crossHair.y);
+		Point crossHairLabel = new Point(crossHair);
+		crossHairLabel.y -= 8;
+		g2d.drawString("(" + getNearestGridPoint(crossHair).x + "," + getNearestGridPoint(crossHair).y + ")", crossHairLabel.x, crossHairLabel.y);
 	}
 	
 	private void drawCommandPreview(Graphics2D g2d, PDC command) {

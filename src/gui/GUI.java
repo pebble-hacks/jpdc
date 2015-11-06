@@ -13,6 +13,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.LookAndFeel;
+import javax.swing.UIManager;
 
 import pdc.PDC;
 
@@ -190,7 +192,7 @@ public class GUI {
 		gbl.setConstraints(undoButton, gbc);
 		window.add(undoButton, gbc);
 		
-		JLabel pathOpenLabel = new JLabel("pathOpen");
+		JLabel pathOpenLabel = new JLabel("Open Path");
 		pathOpenLabel.setPreferredSize(standardSize);
 		gbc.gridx = 0;
 		gbc.gridy = 2;
@@ -311,7 +313,7 @@ public class GUI {
 		window.add(fillColorField, gbc);
 		
 		// Set default values
-		pathOpenCheckbox.setSelected(true);
+		pathOpenCheckbox.setSelected(false);
 		circleRadiusField.setText("5");
 		strokeColorField.setText("000000");
 		strokeWidthField.setText("1");
