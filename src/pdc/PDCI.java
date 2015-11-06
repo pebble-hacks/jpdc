@@ -1,8 +1,10 @@
 package pdc;
 
 import java.awt.Dimension;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -16,6 +18,7 @@ public class PDCI {
 	
 	private static final int VERSION = 1;
 	private static final int MAX_BYTES = 5000;
+	private static final String MAGIC_WORD = "PDCI";
 	
 	private Dimension viewBox;
 	private ArrayList<PDC> commandList = new ArrayList<PDC>();
@@ -123,13 +126,55 @@ public class PDCI {
 	
 	/**
 	 * Read a PDC file and construct this PDCI model object from its data.
-	 * TODO Read as little endian - difficult in Java
 	 * @param path The path to load the PDCI from.
 	 * @return true if successful, false otherwise.
 	 * @throws Exception Any exceptions thrown.
 	 */
 	public boolean readFromFile(String path) throws Exception {
-		return false;
+		File f = new File(path);
+		DataInputStream inputStream = new DataInputStream(new FileInputStream(f));
+		
+		// Read all bytes
+		ArrayList<Byte> bytes = new ArrayList<Byte>();
+		while(inputStream.available() > 0) {
+			ByteBuffer buffer = ByteBuffer.allocate(1);
+			buffer.order(ByteOrder.LITTLE_ENDIAN);
+			buffer.put((byte)inputStream.read());
+			buffer.flip();
+			bytes.add(buffer.get());
+		}
+		
+		// Track position
+		int pos = 0;
+		
+		// Magic word
+		String magicWord = new String();
+		for(pos = 0; pos < 4; pos++) {
+			magicWord += (char)bytes.get(pos).intValue();
+		}
+		if(!magicWord.equals(MAGIC_WORD)) {
+			inputStream.close();
+			throw new Exception("This is not a PDCI file!");
+		}
+	
+		// Size
+		byte[] size = new byte[4];
+		for(; pos < 8; pos++) {
+			size[pos - 4] = bytes.get(pos);
+		}
+		int fileSize = size[0];
+		
+		// Version
+		byte version = bytes.get(8);
+		if(version != VERSION) {
+			inputStream.close();
+			throw new Exception("PDC file is not compatible with the current version: " + VERSION);
+		}
+		
+		
+
+		inputStream.close();
+		return true;
 	}
 
 	/**

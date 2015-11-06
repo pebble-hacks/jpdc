@@ -13,8 +13,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.LookAndFeel;
-import javax.swing.UIManager;
 
 import pdc.PDC;
 
@@ -34,7 +32,7 @@ public class GUI {
 	private JTextField fillColorField;
 	
 	private int currentType = PDC.TYPE_PATH;
-	private String lastSavePath = null;
+	private String lastSavePath = null, lastOpenPath = null;
 	
 	public GUI() {
 		EventQueue.invokeLater(new Runnable() {
@@ -99,7 +97,13 @@ public class GUI {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO Load a PDC file (open dialog)
+				JFileChooser chooser = new JFileChooser(lastOpenPath);
+				int val = chooser.showOpenDialog(window);
+				if(val == JFileChooser.APPROVE_OPTION) {
+					canvas.reset();
+					canvas.load(chooser.getSelectedFile().getAbsolutePath());
+					lastOpenPath = chooser.getCurrentDirectory().getAbsolutePath();
+				}
 				
 				canvas.repaint();
 			}
@@ -116,9 +120,6 @@ public class GUI {
 		gbl.setConstraints(openButton, gbc);
 		window.add(openButton, gbc);
 		
-		// TODO Open not yet implemented
-		openButton.setEnabled(false);
-		
 		JButton saveButton = new JButton("Save");
 		saveButton.addMouseListener(new SmallMouseListener() {
 			
@@ -130,6 +131,7 @@ public class GUI {
 					canvas.save(chooser.getSelectedFile().getAbsolutePath());
 					lastSavePath = chooser.getCurrentDirectory().getAbsolutePath();
 				}
+				canvas.repaint();
 			}
 			
 		});
