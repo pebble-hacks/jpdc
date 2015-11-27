@@ -143,7 +143,7 @@ public class PDCCanvas extends JPanel implements MouseListener, MouseMotionListe
 			}
 			
 			// Connect last to crosshair
-			if(currentCommand != null) {
+			if(currentCommand != null && currentCommand.getType() != PDC.TYPE_CIRCLE) {
 				ArrayList<Point> currentPoints = currentCommand.getPointArray();
 				if(currentPoints.size() > 0) {
 					Point last = getNearestGridDisplayPoint(currentPoints.get(currentPoints.size() - 1));
