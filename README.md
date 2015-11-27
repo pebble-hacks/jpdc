@@ -121,5 +121,5 @@ drawCommandImage.writeToFile(filePath);
 * Add the `.pdc` output
   [as a Pebble project resource and draw in the usual way](http://developer.getpebble.com/tutorials/advanced/vector-animations#drawing-a-pdc-image).
 
-* Use the 'Load' button to load a PDC. Those saved with this tool are more
+* Use the 'Open' button to load a PDC. Those saved with this tool are more
   likely to work than those that haven't.
