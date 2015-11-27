@@ -316,6 +316,7 @@ public class GUI {
 		
 		// Set default values
 		pathOpenCheckbox.setSelected(false);
+		pathOpenCheckbox.setEnabled(false);	 // TODO Determine the correct way to encode this property
 		circleRadiusField.setText("5");
 		strokeColorField.setText("000000");
 		strokeWidthField.setText("1");

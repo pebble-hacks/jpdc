@@ -17,11 +17,11 @@ implementation with simple GUI application for drawing icons.
   [`svg2pdc`](https://github.com/pebble-examples/cards-example/blob/master/tools/svg2pdc.py)
   tool.
 
-* A GUI application (run `release/jpdc-0.1.1.jar`) to draw simple icons for use
+* A GUI application (run `release/jpdc-0.2.0.jar`) to draw simple icons for use
   in Pebble apps. See the *How to use the GUI* section.
 
 ```
-$ java -jar release/jpdc-0.1.1.jar
+$ java -jar release/jpdc-0.2.0.jar
 ```
 
 * Includes `src/pdc/PebbleColor.java` for conversion between `java.awt.Color`
@@ -33,8 +33,6 @@ $ java -jar release/jpdc-0.1.1.jar
 * A fully complete PDC implementation. The `PrecisePath` type is not
   implemented, neither are PebbleDrawCommandSequences, or objects representing
   the PebbleDrawCommandList or PebbleDrawCommandFrame.
-
-* The 'Open' function is not yet implemented.
 
 * Bug-free. While most drawings result in usable `.pdc` files, on some occasions
   nothing will appear. The cause is not known.
@@ -122,3 +120,6 @@ drawCommandImage.writeToFile(filePath);
 
 * Add the `.pdc` output
   [as a Pebble project resource and draw in the usual way](http://developer.getpebble.com/tutorials/advanced/vector-animations#drawing-a-pdc-image).
+
+* Use the 'Load' button to load a PDC. Those saved with this tool are more
+  likely to work than those that haven't.

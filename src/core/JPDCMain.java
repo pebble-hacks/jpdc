@@ -7,8 +7,9 @@ public class JPDCMain {
 	/**
 	 * 0.1 - Initial release.
 	 * 0.1.1 - Disable the unused Open button.
+	 * 0.2.0 - Can load previously saved PDC files. Disabled buggy pathOpen capability for now.
 	 */
-	private static final String VERSION = "0.1.1";
+	private static final String VERSION = "0.2.0";
 	
 	public static void main(String[] args) throws Exception {
 		System.out.println("JPDC version " + VERSION);
