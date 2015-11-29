@@ -64,6 +64,10 @@ public class PDCCanvas extends JPanel implements MouseListener, MouseMotionListe
 	public void paintComponent(Graphics g) {
 		Graphics2D g2d = (Graphics2D)g;
 		
+		// Clear background color
+		g2d.setColor(Color.decode("#EEEEEE"));
+		g2d.fillRect(0, 0, CANVAS_SIZE.width, CANVAS_SIZE.height);
+		
 		// Grid
 		g2d.setColor(Color.LIGHT_GRAY);
 		Dimension size = getSize();
